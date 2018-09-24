@@ -1,0 +1,19 @@
+---
+- name: install tools
+  apt: name={{item}} state=present 
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name:  check mysql started or not
+  service: name=mysql state=started enabled=yes
+  
+- name: ensure mysql listening on all port
+  lineinfile: dest=/etc/mysql/my.cnf regexp=^bind-address line="bind-address = {{ansible_eth1.ipv4.address}}"
+  notify: start mysql
+
+- name: create database
+  mysql_db: name={{db_name}} state=present
+  
+- name: create  user
+  mysql_user: user={{db_user}} password={{db_password}} priv={{db_name}}.*:ALL host='{{db_host}}' state=present
