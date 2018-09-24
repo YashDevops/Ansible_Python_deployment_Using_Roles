@@ -18,9 +18,9 @@ Vagrant up
 
 ## app01 and app02 (Webserver)
 
+```
 
-
-To run it use the following command
+## To run it use the following command
 ```shell
 
 ansible-playbook sites.yml -u vagrant -k 
